@@ -14,6 +14,7 @@
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), Build.props))\Build.props" />
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.MadMan" Version="3.1.112712" />
     <PackageReference Include="FluentAssertions" Version="4.1.0" />    
     <PackageReference Include="EntityFramework" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0" />
@@ -27,19 +28,7 @@
 
   <ItemGroup>
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Web" />   
-    <Reference Include="..\..\..\CommonAssemblies\Microsoft.MadMan.3.1.112712.0\lib\net40\Microsoft.Test.DataDriven.dll">
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="..\..\..\CommonAssemblies\Microsoft.MadMan.3.1.112712.0\lib\net40\Microsoft.Test.Extensions.dll">
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="..\..\..\CommonAssemblies\Microsoft.MadMan.3.1.112712.0\lib\net40\Microsoft.Test.MaDLybZ.dll">
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="..\..\..\CommonAssemblies\Microsoft.MadMan.3.1.112712.0\lib\net40\Microsoft.Test.Validation.dll">
-      <Private>true</Private>
-    </Reference>
+    <Reference Include="System.ServiceModel.Web" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(EnlistmentRoot)\src\Microsoft.OData.Client\Microsoft.OData.Client.csproj" />
