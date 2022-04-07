@@ -81,69 +81,8 @@ steps:
     projects: |
      $(Build.SourcesDirectory)\sln\OData.E2E.sln
 
-- task: Powershell@2
-  displayName: 'Skip strong name validation'
-  inputs:
-    targetType: 'inline'
-    script: |
-      & "$(snExe)" /Vr $(ProductBinPath4)\net45\$(mainDll4)
-      & "$(snExe64)" /Vr $(ProductBinPath4)\net45\$(mainDll4)
-      & "$(snExe)" /Vr $(ProductBinPath1)\net45\$(mainDll1)
-      & "$(snExe64)" /Vr $(ProductBinPath1)\net45\$(mainDll1)
-      & "$(snExe)" /Vr $(ProductBinPath2)\net45\$(mainDll2)
-      & "$(snExe64)" /Vr $(ProductBinPath2)\net45\$(mainDll2)
-      & "$(snExe)" /Vr $(ProductBinPath3)\net45\$(mainDll3)
-      & "$(snExe64)" /Vr $(ProductBinPath3)\net45\$(mainDll3)
-      & "$(snExe)" /Vr $(ProductBinPath5)\net45\$(mainDll5)
-      & "$(snExe64)" /Vr $(ProductBinPath5)\net45\$(mainDll5)
-      & "$(snExe)" /Vr $(ProductBinPath4)\netstandard1.1\$(mainDll4)
-      & "$(snExe64)" /Vr $(ProductBinPath4)\netstandard1.1\$(mainDll4)
-      & "$(snExe)" /Vr $(ProductBinPath1)\netstandard1.1\$(mainDll1)
-      & "$(snExe64)" /Vr $(ProductBinPath1)\netstandard1.1\$(mainDll1)
-      & "$(snExe)" /Vr $(ProductBinPath2)\netstandard1.1\$(mainDll2)
-      & "$(snExe64)" /Vr $(ProductBinPath2)\netstandard1.1\$(mainDll2)
-      & "$(snExe)" /Vr $(ProductBinPath3)\netstandard1.1\$(mainDll3)
-      & "$(snExe64)" /Vr $(ProductBinPath3)\netstandard1.1\$(mainDll3)  
-      & "$(snExe)" /Vr $(ProductBinPath4)\netstandard2.0\$(mainDll4)
-      & "$(snExe64)" /Vr $(ProductBinPath4)\netstandard2.0\$(mainDll4)
-      & "$(snExe)" /Vr $(ProductBinPath1)\netstandard2.0\$(mainDll1)
-      & "$(snExe64)" /Vr $(ProductBinPath1)\netstandard2.0\$(mainDll1)
-      & "$(snExe)" /Vr $(ProductBinPath2)\netstandard2.0\$(mainDll2)
-      & "$(snExe64)" /Vr $(ProductBinPath2)\netstandard2.0\$(mainDll2)
-      & "$(snExe)" /Vr $(ProductBinPath3)\netstandard2.0\$(mainDll3)
-      & "$(snExe64)" /Vr $(ProductBinPath3)\netstandard2.0\$(mainDll3)      
-  enabled: true
-
-- task: BatchScript@1
-  displayName: 'Run script - Test Startup'
-  inputs:
-    filename: '$(Build.SourcesDirectory)\tools\Scripts\TestStartup.cmd'
-    arguments: '$(Build.SourcesDirectory)'
-    modifyEnvironment: true
-    workingFolder: '$(Build.SourcesDirectory)\tools\Scripts'
-
-- task: AzurePowerShell@2
-  displayName: 'Cleanup DB'
-  inputs:
-    azureConnectionType: ConnectedServiceName
-    azureClassicSubscription: ODataAzureSubs
-    ScriptType: InlineScript
-    Inline: |
-     # You can write your azure powershell scripts inline here. 
-     # You can also pass predefined and custom variables to this script using arguments
-     pushd "C:\Program Files\Microsoft SQL Server\130\Tools\Binn"
-     #.\SqlLocalDB.exe stop
-     #.\SqlLocalDB.exe delete MSSQLLocalDB
-     .\SqlLocalDB.exe create MSSQLLocalDB
-     .\SqlLocalDB.exe start MSSQLLocalDB
-     #cd "C:\Users\ODataBld"
-     #del *.ldf
-     #del *.mdf
-     popd
-    preferredAzurePowerShellVersion: 5.1.1
-
 - task: DotNetCoreCLI@2
-  displayName: 'Spatial Test'
+  displayName: 'Test'
   inputs:
     command: 'test'
     arguments: '--configuration $(BuildConfiguration) --no-build --collect "Code coverage"'
@@ -318,6 +257,10 @@ steps:
      ]
     SessionTimeout: 20
     VerboseLogin: true
+
+
+
+
 
 - task: MSBuild@1
   displayName: 'Get Nuget Package Metadata'
